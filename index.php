@@ -23,7 +23,9 @@
     			if(isset($_GET['mount_teacher'])){include "./object/mount_teacher.php";}
           else if(isset($_GET['mount_student'])){include "./object/mount_student.php";}
           else if(isset($_GET['mount_department'])){include "./object/mount_department.php";}
+          else if(isset($_GET['mount_department_only_std'])){include "./object/mount_department_only_std.php";}
           else if(isset($_GET['mount_group'])){include "./object/mount_group.php";}
+          else if(isset($_GET['mount_group_only_std'])){include "./object/mount_group_only_std.php";}
     		 ?>
     	</div>
     	<div class="col-sm-3"></div>	

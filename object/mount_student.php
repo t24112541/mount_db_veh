@@ -1,10 +1,4 @@
 <?php
-  $que_host=mysqli_query($my_conn,"select * from my_mount,my_match where my_mount.my_id=my_match.m_host_id");
-  $sh_host=mysqli_fetch_array($que_host);
-  $host_db=mysqli_connect($sh_host['my_host'],$sh_host['my_user'],$sh_host['my_pass'],$sh_host['my_name']);
-  $host_db->set_charset("utf8");
-  if(!$host_db){echo "connect host_db error";}
-  else{
     $perpage = 50;
     if (isset($_GET['page'])) {
       $page = $_GET['page'];
@@ -19,7 +13,6 @@
     $query2=mysqli_query($host_db,"select * from student ");
     $total_record = mysqli_num_rows($query2);
     $total_page = ceil($total_record / $perpage);
-  }
  ?>
 <form action="" method="post" class="form-horizontal">
   <button class="cv_btn btn-ok" style="float: left" type="submit" name="btn_student_mount">นำเข้าข้อมูล</button>
@@ -47,8 +40,10 @@
     </thead>
     <tbody>
       
-       <?php while($sh_data_host=mysqli_fetch_array($que_sh_host)){ 
-     
+       <?php $birth_day=""; while($sh_data_host=mysqli_fetch_array($que_sh_host)){ 
+        
+        // $day=$sh_data_host['birt'].split("/");
+        
         ?>
           <tr>
             <td><input type="text" class="form-control"  name="std_code[]" value="<?php echo $sh_data_host['code']; ?>"></td>
@@ -88,26 +83,18 @@
   if(isset($_POST['btn_student_mount'])){?>
     <div class="log_view">
     <?php 
-    $que_target=mysqli_query($my_conn,"select * from my_mount,my_match where my_mount.my_id=my_match.m_target_id");
-    $sh_target=mysqli_fetch_array($que_target);
-    $target_db=mysqli_connect($sh_target['my_host'],$sh_target['my_user'],$sh_target['my_pass'],$sh_target['my_name']);
-    $target_db->set_charset("utf8");
-    if(!$target_db){echo "connect target_db error";}
-    else{
       for($i=0;$i<count($_POST['std_code']);$i++){
-        // echo $i."<br>";
-        // echo $_POST['std_code'][$i]."<br>";
-        // echo $_POST['t_name'][$i]."<br>";
-        // echo $_POST['t_dep'][$i]."<br>";
-        // echo $_POST['t_tel'][$i]."<br>";
-        // echo $_POST['t_username'][$i]."<br>";
-        // echo $_POST['t_password'][$i]."<br>";
           $chk_std_code=mysqli_query($target_db,"select * from pk_student where std_code='".$_POST['std_code'][$i]."'");
           $num_std_code=mysqli_num_rows($chk_std_code);
 
           if($num_std_code>0){echo "cannot insert student code ".$_POST['std_code'][$i]." > 0 :$num_std_code<br>";}
           else{
-            $sql_target="insert into pk_student (std_code,std_gender,std_prename,std_name,std_lname,std_pin_id,std_birthday,g_code,std_tel,std_tel2,std_blood,std_username,std_password) values ('".$_POST['std_code'][$i]."','".$_POST['std_gender'][$i]."','".$_POST['std_prename'][$i]."','".$_POST['std_name'][$i]."','".$_POST['std_lname'][$i]."','".$_POST['std_pin_id'][$i]."','".$_POST['std_birthday'][$i]."','".$_POST['g_code'][$i]."','".$_POST['std_tel'][$i]."','".$_POST['std_tel2'][$i]."','".$_POST['std_blood'][$i]."','".$_POST['std_code'][$i]."','".$_POST['std_pin_id'][$i]."')";
+            // echo "1 ".$_POST['std_birthday'][$i]."<br>";
+            $day= explode('/', $_POST['std_birthday'][$i]);
+            $birth_day=$day[2]."-".$day[1]."-".$day[0];
+            
+            // echo "2 ".$birth_day."<br>";
+            $sql_target="insert into pk_student (std_code,std_gender,std_prename,std_name,std_lname,std_pin_id,std_birthday,g_code,std_tel,std_tel2,std_blood,std_username,std_password) values ('".$_POST['std_code'][$i]."','".$_POST['std_gender'][$i]."','".$_POST['std_prename'][$i]."','".$_POST['std_name'][$i]."','".$_POST['std_lname'][$i]."','".$_POST['std_pin_id'][$i]."','".$birth_day."','".$_POST['g_code'][$i]."','".$_POST['std_tel'][$i]."','".$_POST['std_tel2'][$i]."','".$_POST['std_blood'][$i]."','".$_POST['std_code'][$i]."','".$_POST['std_pin_id'][$i]."')";
             $ins_target=mysqli_query($target_db,$sql_target);
             ?>
 
@@ -124,7 +111,6 @@
               
             }
           }
-        }
       }
     ?>
 </div> <?php

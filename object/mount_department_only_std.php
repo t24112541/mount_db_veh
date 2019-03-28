@@ -1,16 +1,23 @@
 <?php
+// $date = '10-03-2019';
+// $nameOfDay = date('D', strtotime($date));
+// echo $nameOfDay;
+
     $perpage = 50;
     if (isset($_GET['page'])) {
       $page = $_GET['page'];
     }else {
       $page = 1;
     }
+     
      $start = ($page - 1) * $perpage;
-    
 
-    $query2=mysqli_query($host_db,"select * from depart ");
+    $que_sh_host=mysqli_query($host_db,"select depwork from student group by depwork limit {$start} , {$perpage} ");
+ 
+    $query2=mysqli_query($host_db,"select depwork from student group by depwork");
     $total_record = mysqli_num_rows($query2);
     $total_page = ceil($total_record / $perpage);
+
  ?>
 <form action="" method="post" class="form-horizontal">
   <button class="cv_btn btn-ok" style="float: left" type="submit" name="btn_department_mount">นำเข้าข้อมูล</button>
@@ -29,13 +36,12 @@
     </thead>
     <tbody>
       
-       <?php 
-       $que_sh_host=mysqli_query($host_db,"select * from depart order by depcode desc limit {$start} , {$perpage} ");
-       while($sh_data_host=mysqli_fetch_array($que_sh_host)){  
+       <?php while($sh_data_host=mysqli_fetch_array($que_sh_host)){ 
+     
         ?>
           <tr>
-            <td><input type="text" class="form-control"  name="d_code[]" value="<?php echo $sh_data_host['depcode']; ?>"></td>
-            <td><input type="text" class="cv_form-control "  name="d_name[]" value="<?php echo $sh_data_host['depname']; ?>"></td>
+            <td><input type="text" class="form-control"  name="d_code[]" value="<?php echo $sh_data_host['depwork']; ?>"></td>
+            <td><input type="text" class="cv_form-control "  name="d_name[]" value="<?php echo $sh_data_host['depwork']; ?>"></td>
          
           </tr>
         <?php }?>
@@ -58,9 +64,7 @@
   if(isset($_POST['btn_department_mount'])){?>
     <div class="log_view">
     <?php 
-
       for($i=0;$i<count($_POST['d_code']);$i++){
-
           $chk_department_code=mysqli_query($target_db,"select * from pk_department where d_code='".$_POST['d_code'][$i]."'");
           $num_department_code=mysqli_num_rows($chk_department_code);
 
@@ -72,7 +76,6 @@
 
           }
         }
-
     ?>
 </div> <?php
   }

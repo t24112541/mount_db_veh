@@ -1,4 +1,5 @@
 <?php
+
     $perpage = 50;
     if (isset($_GET['page'])) {
       $page = $_GET['page'];
@@ -8,9 +9,9 @@
      
      $start = ($page - 1) * $perpage;
 
-    $que_sh_host=mysqli_query($host_db,"select distinct depart.depcode,depart.depname,student.gro from student inner join depart on student.depwork = depart.depname order by student.gro desc limit {$start} , {$perpage} ");
+    $que_sh_host=mysqli_query($host_db,"select gro,depwork from student group by gro,depwork order by gro desc limit {$start} , {$perpage} ");
 
-    $query2=mysqli_query($host_db,"select distinct depart.depcode,depart.depname,student.gro from student inner join depart on student.depwork = depart.depname ");
+    $query2=mysqli_query($host_db,"select gro,depwork from student group by gro,depwork ");
     $total_record = mysqli_num_rows($query2);
     $total_page = ceil($total_record / $perpage);
   
@@ -40,8 +41,8 @@
             <td><input type="text" class="form-control"  name="g_code[]" value="<?php echo $sh_data_host['gro']; ?>"></td>
             <td><input type="text" class="cv_form-control "  name="g_name[]" value="<?php echo $sh_data_host['gro']; ?>"></td>
             <td>
-              <?php echo $sh_data_host['depname']; ?>
-              <input type="hidden" class="cv_form-control "  name="d_code[]" value="<?php echo $sh_data_host['depcode']; ?>">
+              <?php echo $sh_data_host['depwork']; ?>
+              <input type="hidden" class="cv_form-control "  name="d_code[]" value="<?php echo $sh_data_host['depwork']; ?>">
             </td>
          
           </tr>
@@ -75,7 +76,6 @@
             $sql_target="insert into pk_group (g_code,g_name,d_code) values ('".$_POST['g_code'][$i]."','".$_POST['g_name'][$i]."','".$_POST['d_code'][$i]."')";
             $ins_target=mysqli_query($target_db,$sql_target);
                 echo "insert group code ".$_POST['g_code'][$i]." OK<br>"; 
-
           }
         }
     ?>

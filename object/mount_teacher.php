@@ -1,10 +1,4 @@
 <?php
-  $que_host=mysqli_query($my_conn,"select * from my_mount,my_match where my_mount.my_id=my_match.m_host_id");
-  $sh_host=mysqli_fetch_array($que_host);
-  $host_db=mysqli_connect($sh_host['my_host'],$sh_host['my_user'],$sh_host['my_pass'],$sh_host['my_name']);
-  $host_db->set_charset("utf8");
-  if(!$host_db){echo "connect host_db error";}
-  else{
     $perpage = 50;
     if (isset($_GET['page'])) {
       $page = $_GET['page'];
@@ -14,12 +8,12 @@
      
      $start = ($page - 1) * $perpage;
 
-    $que_sh_host=mysqli_query($host_db,"select * from teacher inner join depart on teacher.teacher_dep = depart.depname limit {$start} , {$perpage} ");
+    $que_sh_host=mysqli_query($host_db,"select * from teacher inner join depart on teacher.teacher_dep = depart.depname  order by teacher_code asc limit {$start} , {$perpage}");
+     // $que_sh_host=mysqli_query($host_db,"select * from teacher order by teacher_code asc ");
 
     $query2=mysqli_query($host_db,"select * from teacher inner join depart on teacher.teacher_dep = depart.depname ");
     $total_record = mysqli_num_rows($query2);
     $total_page = ceil($total_record / $perpage);
-  }
  ?>
 <form action="" method="post" class="form-horizontal">
   <button class="cv_btn btn-ok" style="float: left" type="submit" name="btn_teacher_mount">นำเข้าข้อมูล</button>
@@ -72,19 +66,8 @@
   if(isset($_POST['btn_teacher_mount'])){?>
     <div class="log_view">
     <?php 
-    $que_target=mysqli_query($my_conn,"select * from my_mount,my_match where my_mount.my_id=my_match.m_target_id");
-    $sh_target=mysqli_fetch_array($que_target);
-    $target_db=mysqli_connect($sh_target['my_host'],$sh_target['my_user'],$sh_target['my_pass'],$sh_target['my_name']);
-    $target_db->set_charset("utf8");
-    if(!$target_db){echo "connect target_db error";}
+
     for($i=0;$i<count($_POST['t_code']);$i++){
-      // echo $i."<br>";
-      // echo $_POST['t_code'][$i]."<br>";
-      // echo $_POST['t_name'][$i]."<br>";
-      // echo $_POST['t_dep'][$i]."<br>";
-      // echo $_POST['t_tel'][$i]."<br>";
-      // echo $_POST['t_username'][$i]."<br>";
-      // echo $_POST['t_password'][$i]."<br>";
       $chk_t_code=mysqli_query($target_db,"select * from pk_teacher where t_code='".$_POST['t_code'][$i]."'");
       $num_t_code=mysqli_num_rows($chk_t_code);
 
