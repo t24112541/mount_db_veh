@@ -5,7 +5,7 @@
  <html lang="en">
 <head>
 	<title>Veh Mount DB</title>
-  <link rel="shortcut icon" href="img/logo.png" />
+  <link rel="shortcut icon" href="img/logo.png"/>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
