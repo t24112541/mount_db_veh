@@ -1,3 +1,6 @@
+body{
+  background-color:#f3f3f3;
+}
 .cv_margin_mn{margin:10px;}
 .cv_form-control {
   display: block;
@@ -95,4 +98,25 @@ fieldset[disabled] a.cv_btn {
 .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
+.txt-center{
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .menu_padding{
+    padding-top:0;
+  }
+}
+@media (min-width: 992px){
+  .menu_padding{
+    padding-top:70%;
+  }
+}
+.font_size-md{
+  font-size:32px;
+}
+.font_size-sm{
+  font-size:16px;
+}
+
 
