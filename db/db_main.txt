@@ -1,1 +1,1 @@
-{"host":"localhost","username":"root","password":"","db":"mount_db","port":"3306"}
+{"host":"203.113.123.204","username":"veh","password":"t24112541","db":"mount_db","port":"3306"}

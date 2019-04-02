@@ -1,5 +1,5 @@
 <?php
-error_reporting(0);
+// error_reporting(0);
 // $arr = array('host'=> 'localhost' ,'username'=>'root' ,'password'=>'' ,'db'=>'mount_db','port'=>'3306' );
 // file_put_contents('./db/db_main.txt',  json_encode($arr).PHP_EOL);
 
